@@ -217,13 +217,32 @@ href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution
                  callback: function () {
                      currSlide = swipe.getPos();
                  }
-             };
+             },
+             el;
+
+        if (swipe) {
+            el = swipe.element;
+            el.removeEventListener("webkitTransitionEnd", swipe, false);
+            el.removeEventListener("msTransitionEnd", swipe, false);
+            el.removeEventListener("oTransitionEnd", swipe, false);
+            el.removeEventListener("transitionend", swipe, false);
+            window.removeEventListener("resize", swipe, false);
+            window.removeEventListener("touchstart", swipe, false);
+            window.removeEventListener("touchmove", swipe, false);
+            window.removeEventListener("touchend", swipe, false);
+            window.removeEventListener("touchcancel", swipe, false);
+        }
 
         swipe = new Swipe(viewport, options);
-        document.body.addEventListener("touchstart", swipe, false);
-        document.body.addEventListener("touchmove", swipe, false);
-        document.body.addEventListener("touchend", swipe, false);
-        document.body.addEventListener("touchcancel", swipe, false);
+        el = swipe.element;
+        el.removeEventListener("touchstart", swipe, false);
+        el.removeEventListener("touchmove", swipe, false);
+        el.removeEventListener("touchend", swipe, false);
+        el.removeEventListener("touchcancel", swipe, false);
+        window.addEventListener("touchstart", swipe, false);
+        window.addEventListener("touchmove", swipe, false);
+        window.addEventListener("touchend", swipe, false);
+        window.addEventListener("touchcancel", swipe, false);
     }
 
     function getNamedFlow(flowName) {
